@@ -44,3 +44,14 @@ $primary-color: #673ab7;
     background: darken($primary-color, 6%);
   }
 }
+
+.app-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  &--logo-menu {
+    display: flex;
+    align-items: center;
+  }
+}

@@ -3,13 +3,13 @@ export class LoadTables {
   constructor() {}
 }
 
-export class OpenTable {
-  static readonly type = '[Ordering] Open Table';
+export class ReserveTable {
+  static readonly type = '[Ordering] Reserve Table';
   constructor(public readonly tableName: string) {}
 }
 
-export class CloseTable {
-  static readonly type = '[Ordering] Close Table';
+export class CancelReservation {
+  static readonly type = '[Ordering] Cancel Reservation';
   constructor(public readonly tableName: string) {}
 }
 

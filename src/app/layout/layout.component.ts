@@ -1,34 +1,39 @@
 import { MediaMatcher } from '@angular/cdk/layout';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit } from '@angular/core';
 
-import { MenuItem } from './models';
-import { RouterLinkActive, RouterLink, RouterOutlet } from '@angular/router';
-import { NgFor, NgIf, AsyncPipe } from '@angular/common';
-import { MatLegacyListModule } from '@angular/material/legacy-list';
-import { MatSidenavModule } from '@angular/material/sidenav';
+import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { MatLegacyButtonModule } from '@angular/material/legacy-button';
+import { MatLegacyListModule } from '@angular/material/legacy-list';
+import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { Select } from '@ngxs/store';
+import { Observable } from 'rxjs';
+import { OrdersQueries } from '../restaurant/queries/orders.queries';
+import { MenuItem } from './models';
+import { ReservedTablesComponent } from './components/reserved-tables/reserved-tables.component';
 
 @Component({
-    selector: 'app-layout',
-    templateUrl: './layout.component.html',
-    styleUrls: ['./layout.component.scss'],
-    changeDetection: ChangeDetectionStrategy.Default,
-    standalone: true,
-    imports: [
-        MatToolbarModule,
-        MatLegacyButtonModule,
-        MatIconModule,
-        MatSidenavModule,
-        MatLegacyListModule,
-        NgFor,
-        NgIf,
-        RouterLinkActive,
-        RouterLink,
-        RouterOutlet,
-        AsyncPipe,
-    ],
+  selector: 'app-layout',
+  templateUrl: './layout.component.html',
+  styleUrls: ['./layout.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Default,
+  standalone: true,
+  imports: [
+    MatToolbarModule,
+    MatLegacyButtonModule,
+    MatIconModule,
+    MatSidenavModule,
+    MatLegacyListModule,
+    NgFor,
+    NgIf,
+    RouterLinkActive,
+    RouterLink,
+    RouterOutlet,
+    AsyncPipe,
+    ReservedTablesComponent
+  ],
 })
 export class LayoutComponent implements OnInit, OnDestroy {
   @Input()
@@ -49,7 +54,7 @@ export class LayoutComponent implements OnInit, OnDestroy {
     this.mobileQuery.addListener(this.mobileQueryListener);
   }
 
-  ngOnInit(): void { }
+  ngOnInit(): void {}
 
   ngOnDestroy(): void {
     this.mobileQuery.removeListener(this.mobileQueryListener);

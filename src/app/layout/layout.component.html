@@ -1,7 +1,10 @@
 <div class="app-container" [class.is-mobile]="mobileQuery.matches">
   <mat-toolbar color="primary" class="app-toolbar">
-    <button mat-icon-button (click)="drawer.toggle()"><mat-icon>menu</mat-icon></button>
-    <h1 class="app-name">NGXS Diner</h1>
+    <div class="app-toolbar--logo-menu">
+      <button mat-icon-button (click)="drawer.toggle()"><mat-icon>menu</mat-icon></button>
+      <h1 class="app-name">NGXS Diner</h1>
+    </div>
+    <app-reserved-tables></app-reserved-tables>
   </mat-toolbar>
 
   <mat-sidenav-container class="sidenav-container" [style.marginTop.px]="mobileQuery.matches ? 56 : 0">

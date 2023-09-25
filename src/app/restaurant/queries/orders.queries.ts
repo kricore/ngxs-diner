@@ -37,4 +37,9 @@ export class OrdersQueries {
       .filter(item => item.count > 0);
     return orderedRecipes;
   }
+
+  @Selector([OrdersState.orders])
+  static getCountOfReservedTables(orders: OrdersMap): number {
+    return Object.entries(orders).filter(([_, value]) => !!value).length;
+  }
 }

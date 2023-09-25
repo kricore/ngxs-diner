@@ -3,7 +3,7 @@ import { Action, Selector, State, StateContext } from '@ngxs/store';
 import { insertItem, patch, removeItem } from '@ngxs/store/operators';
 
 import { Order, OrdersMap } from '../models';
-import { AddTableChoice, CloseTable, OpenTable, RemoveTableChoice } from './actions';
+import { AddTableChoice, CancelReservation, RemoveTableChoice, ReserveTable } from './actions';
 
 type OrdersStateModel = OrdersMap;
 
@@ -21,8 +21,8 @@ export class OrdersState {
     return state;
   }
 
-  @Action(OpenTable)
-  protected openTable(ctx: LocalStateContext, action: OpenTable): void {
+  @Action(ReserveTable)
+  protected reserveTable(ctx: LocalStateContext, action: ReserveTable): void {
     const { tableName } = action;
     ctx.setState(
       patch<LocalStateModel>({
@@ -31,8 +31,8 @@ export class OrdersState {
     );
   }
 
-  @Action(CloseTable)
-  protected closeTable(ctx: LocalStateContext, action: CloseTable): void {
+  @Action(CancelReservation)
+  protected cancelReservation(ctx: LocalStateContext, action: CancelReservation): void {
     const { tableName } = action;
     ctx.setState(
       patch<LocalStateModel>({ [tableName]: null })

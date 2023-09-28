@@ -1,35 +1,32 @@
 import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
-import { MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA, MatLegacyDialogRef as MatDialogRef, MatLegacyDialogModule } from '@angular/material/legacy-dialog';
+import {
+  MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA,
+  MatLegacyDialogRef as MatDialogRef,
+  MatLegacyDialogModule,
+} from '@angular/material/legacy-dialog';
 import { Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 
-import { AddTableChoice, RemoveTableChoice } from '../../state/actions';
-import { OrderViewModel, OrderViewModelQueries } from '../../view-models/order-view-model.queries';
+import { AsyncPipe, NgIf } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { MatLegacyButtonModule } from '@angular/material/legacy-button';
 import { MatLegacyTableModule } from '@angular/material/legacy-table';
-import { NgIf, AsyncPipe } from '@angular/common';
+import { AddTableChoice, RemoveTableChoice } from '../../state/actions';
+import { OrderViewModel, OrderViewModelQueries } from '../../view-models/order-view-model.queries';
 
 export interface TableViewDialogData {
   tableName: string;
 }
 
 @Component({
-    selector: 'app-table-view',
-    templateUrl: './table-view.component.html',
-    styleUrls: ['./table-view.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: true,
-    imports: [
-        MatLegacyDialogModule,
-        NgIf,
-        MatLegacyTableModule,
-        MatLegacyButtonModule,
-        MatIconModule,
-        AsyncPipe,
-    ],
+  selector: 'app-table-view',
+  templateUrl: './order-view.component.html',
+  styleUrls: ['./order-view.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [MatLegacyDialogModule, NgIf, MatLegacyTableModule, MatLegacyButtonModule, MatIconModule, AsyncPipe],
 })
-export class TableViewComponent implements OnInit {
+export class OrderViewComponent implements OnInit {
   tableOrder$: Observable<OrderViewModel>;
 
   constructor(

@@ -4,24 +4,26 @@ import { NgModule } from '@angular/core';
 import { MatLegacyDialogModule as MatDialogModule } from '@angular/material/legacy-dialog';
 import { Actions, NgxsModule, ofActionDispatched } from '@ngxs/store';
 
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { OrderingDialogsService } from './dialogs/ordering-dialogs.service';
 import { EditTableOrder } from './state/actions';
-import { OrdersState } from './state/orders.state';
 import { TablesState } from './state/tables.state';
-
 @NgModule({
   declarations: [],
   imports: [
     CommonModule, //
     HttpClientModule,
     MatDialogModule,
-    NgxsModule.forFeature([OrdersState, TablesState]),
+    NgxsModule.forFeature([TablesState]),
   ],
 })
 export class RestaurantModule {
   constructor(private actions: Actions, dialog: OrderingDialogsService) {
-    this.actions.pipe(ofActionDispatched(EditTableOrder)).subscribe((action: EditTableOrder) => {
-      dialog.openTableOrder(action.tableName);
-    });
+    this.actions
+      .pipe(ofActionDispatched(EditTableOrder))
+      .pipe(takeUntilDestroyed())
+      .subscribe((action: EditTableOrder) => {
+        dialog.openTableOrder(action.tableName);
+      });
   }
 }

@@ -8,11 +8,8 @@ import { MatLegacyListModule } from '@angular/material/legacy-list';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
-import { Select } from '@ngxs/store';
-import { Observable } from 'rxjs';
-import { OrdersQueries } from '../restaurant/queries/orders.queries';
-import { MenuItem } from './models';
 import { ReservedTablesComponent } from './components/reserved-tables/reserved-tables.component';
+import { MenuItem } from './models';
 
 @Component({
   selector: 'app-layout',
@@ -32,7 +29,7 @@ import { ReservedTablesComponent } from './components/reserved-tables/reserved-t
     RouterLink,
     RouterOutlet,
     AsyncPipe,
-    ReservedTablesComponent
+    ReservedTablesComponent,
   ],
 })
 export class LayoutComponent implements OnInit, OnDestroy {

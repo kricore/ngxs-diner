@@ -1,26 +1,19 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Select } from '@ngxs/store';
 import { Observable } from 'rxjs';
 
-import { KitchenViewModel, KitchenViewModelQueries } from '../../view-models/kitchen-view-model.queries';
+import { AsyncPipe, NgIf } from '@angular/common';
+import { TablesQueries } from 'src/app/restaurant/state/tables.queries';
+import { KitchenViewModel } from '../../../restaurant/models/kitchen.view-model';
 import { OrdersListComponent } from '../../components/orders-list/orders-list.component';
-import { NgIf, AsyncPipe } from '@angular/common';
 
 @Component({
-    templateUrl: './kitchen-home-page.component.html',
-    styleUrls: ['./kitchen-home-page.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: true,
-    imports: [
-        NgIf,
-        OrdersListComponent,
-        AsyncPipe,
-    ],
+  templateUrl: './kitchen-home-page.component.html',
+  styleUrls: ['./kitchen-home-page.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [NgIf, OrdersListComponent, AsyncPipe],
 })
-export class KitchenHomePageComponent implements OnInit {
-  @Select(KitchenViewModelQueries.getViewModel) viewModel$: Observable<KitchenViewModel>;
-
-  constructor() {}
-
-  ngOnInit(): void {}
+export class KitchenHomePageComponent {
+  @Select(TablesQueries.getKitchenViewModel) viewModel$: Observable<KitchenViewModel>;
 }

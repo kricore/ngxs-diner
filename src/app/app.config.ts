@@ -10,7 +10,6 @@ import { KitchenModule } from './kitchen/kitchen.module';
 import { RecipeModule } from './recipies/recipes.module';
 import { RestaurantModule } from './restaurant/restaurant.module';
 import { routes } from './routes';
-import { StockModule } from './stock/stock.module';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -25,8 +24,7 @@ export const appConfig: ApplicationConfig = {
       NgxsReduxDevtoolsPluginModule.forRoot(),
       RecipeModule,
       RestaurantModule,
-      KitchenModule,
-      StockModule
+      KitchenModule
     ),
     provideAnimations(),
     provideRouter(routes),

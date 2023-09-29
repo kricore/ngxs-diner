@@ -11,9 +11,9 @@ import { AsyncPipe, NgIf } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { MatLegacyButtonModule } from '@angular/material/legacy-button';
 import { MatLegacyTableModule } from '@angular/material/legacy-table';
+import { Recipe } from 'src/app/recipies/models';
+import { RecipesState } from 'src/app/recipies/state/recipes.state';
 import { AddTableChoice, RemoveTableChoice } from '../../state/actions';
-import { OrderViewModel, OrderViewModelQueries } from '../../view-models/order-view-model.queries';
-
 export interface TableViewDialogData {
   tableName: string;
 }
@@ -27,7 +27,7 @@ export interface TableViewDialogData {
   imports: [MatLegacyDialogModule, NgIf, MatLegacyTableModule, MatLegacyButtonModule, MatIconModule, AsyncPipe],
 })
 export class OrderViewComponent implements OnInit {
-  tableOrder$: Observable<OrderViewModel>;
+  recipes$: Observable<Recipe[]>;
 
   constructor(
     private matDialogRef: MatDialogRef<TableViewDialogData>,
@@ -36,8 +36,7 @@ export class OrderViewComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    const { tableName } = this.data;
-    this.tableOrder$ = this.store.select(OrderViewModelQueries.createOrderSelectorFor(tableName));
+    this.recipes$ = this.store.select(RecipesState.recipes);
   }
 
   addChoice(recipeName: string): void {

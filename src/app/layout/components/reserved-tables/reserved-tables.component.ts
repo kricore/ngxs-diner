@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Select } from '@ngxs/store';
 import { Observable } from 'rxjs';
-import { OrdersQueries } from 'src/app/restaurant/queries/orders.queries';
+import { TablesQueries } from 'src/app/restaurant/state/tables.queries';
 
 @Component({
   selector: 'app-reserved-tables',
@@ -28,5 +28,5 @@ import { OrdersQueries } from 'src/app/restaurant/queries/orders.queries';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ReservedTablesComponent {
-  @Select(OrdersQueries.getCountOfReservedTables) reservedTables$: Observable<number>;
+  @Select(TablesQueries.getCountOfReservedTables) reservedTables$: Observable<number>;
 }

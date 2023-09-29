@@ -1,12 +1,12 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, inject } from '@angular/core';
 import { Store } from '@ngxs/store';
 
 import { NgIf } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { MatLegacyButtonModule } from '@angular/material/legacy-button';
 import { MatLegacyCardModule } from '@angular/material/legacy-card';
+import { TableOrderViewModel } from '../../models/order.view-model';
 import { CancelReservation, EditTableOrder, ReserveTable } from '../../state/actions';
-import { TableOrderViewModel } from '../../view-models/table-view-model.queries';
 
 @Component({
   selector: 'app-table-card',
@@ -16,13 +16,10 @@ import { TableOrderViewModel } from '../../view-models/table-view-model.queries'
   standalone: true,
   imports: [MatLegacyCardModule, NgIf, MatIconModule, MatLegacyButtonModule],
 })
-export class TableCardComponent implements OnInit {
-  @Input()
-  tableOrder: TableOrderViewModel = null;
+export class TableCardComponent {
+  @Input() tableOrder: TableOrderViewModel = null;
 
-  constructor(private store: Store) {}
-
-  ngOnInit(): void {}
+  private store = inject(Store);
 
   async reserveTable(): Promise<void> {
     await this.store.dispatch(new ReserveTable(this.tableOrder.table.name)).toPromise();

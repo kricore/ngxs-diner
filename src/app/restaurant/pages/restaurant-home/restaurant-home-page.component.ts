@@ -1,10 +1,11 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Select } from '@ngxs/store';
 import { Observable } from 'rxjs';
 
 import { AsyncPipe, NgIf } from '@angular/common';
 import { TablesViewComponent } from '../../components/tables-view/tables-view.component';
-import { OrderingViewModel, TableViewModelQueries } from '../../view-models/table-view-model.queries';
+import { OrderingViewModel } from '../../models/order.view-model';
+import { TablesQueries } from '../../state/tables.queries';
 
 @Component({
   templateUrl: './restaurant-home-page.component.html',
@@ -13,10 +14,6 @@ import { OrderingViewModel, TableViewModelQueries } from '../../view-models/tabl
   standalone: true,
   imports: [NgIf, TablesViewComponent, AsyncPipe],
 })
-export class RestaurantHomePageComponent implements OnInit {
-  @Select(TableViewModelQueries.getViewModel) viewModel$: Observable<OrderingViewModel>;
-
-  constructor() {}
-
-  ngOnInit(): void {}
+export class RestaurantHomePageComponent {
+  @Select(TablesQueries.getViewModel) viewModel$: Observable<OrderingViewModel>;
 }

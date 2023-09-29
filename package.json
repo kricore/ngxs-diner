@@ -24,7 +24,6 @@
     "@ngxs/logger-plugin": "^3.8.1",
     "@ngxs/store": "^3.8.1",
     "prettier": "^2.1.1",
-    "ramda": "^0.27.1",
     "rxjs": "~6.6.0",
     "tslib": "^2.0.0",
     "zone.js": "~0.13.3"

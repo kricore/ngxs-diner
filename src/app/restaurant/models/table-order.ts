@@ -2,7 +2,6 @@
 
 export interface Order {
   tableName: string;
-  persons: number | null;
   choices: string[];
 }
 

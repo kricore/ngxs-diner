@@ -1,11 +1,11 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { Select } from '@ngxs/store';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 
 import { AsyncPipe, NgIf } from '@angular/common';
 import { TablesViewComponent } from '../../components/tables-view/tables-view.component';
 import { OrderingViewModel } from '../../models/order.view-model';
-import { TablesQueries } from '../../state/tables.queries';
+import { TablesStateQueries } from '../../state/tables.queries';
 
 @Component({
   templateUrl: './restaurant-home-page.component.html',
@@ -15,5 +15,7 @@ import { TablesQueries } from '../../state/tables.queries';
   imports: [NgIf, TablesViewComponent, AsyncPipe],
 })
 export class RestaurantHomePageComponent {
-  @Select(TablesQueries.getViewModel) viewModel$: Observable<OrderingViewModel>;
+  private _store = inject(Store);
+
+  viewModel$: Observable<OrderingViewModel> = this._store.select(TablesStateQueries.getViewModel);
 }

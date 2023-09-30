@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject, OnInit, inject } from '@angular/core';
 import {
   MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA,
   MatLegacyDialogRef as MatDialogRef,
@@ -12,7 +12,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatLegacyButtonModule } from '@angular/material/legacy-button';
 import { MatLegacyTableModule } from '@angular/material/legacy-table';
 import { Recipe } from 'src/app/recipies/models';
-import { RecipesState } from 'src/app/recipies/state/recipes.state';
+import { RecipesStateQueries } from 'src/app/recipies/state/recipies.queries';
 import { AddTableChoice, RemoveTableChoice } from '../../state/actions';
 export interface TableViewDialogData {
   tableName: string;
@@ -29,21 +29,22 @@ export interface TableViewDialogData {
 export class OrderViewComponent implements OnInit {
   recipes$: Observable<Recipe[]>;
 
+  private _store = inject(Store);
+
   constructor(
     private matDialogRef: MatDialogRef<TableViewDialogData>,
-    @Inject(MAT_DIALOG_DATA) public data: TableViewDialogData,
-    private store: Store
+    @Inject(MAT_DIALOG_DATA) public data: TableViewDialogData
   ) {}
 
   ngOnInit(): void {
-    this.recipes$ = this.store.select(RecipesState.recipes);
+    this.recipes$ = this._store.select(RecipesStateQueries.recipes);
   }
 
   addChoice(recipeName: string): void {
-    this.store.dispatch(new AddTableChoice(this.data.tableName, recipeName));
+    this._store.dispatch(new AddTableChoice(this.data.tableName, recipeName));
   }
 
   removeChoice(recipeName: string): void {
-    this.store.dispatch(new RemoveTableChoice(this.data.tableName, recipeName));
+    this._store.dispatch(new RemoveTableChoice(this.data.tableName, recipeName));
   }
 }

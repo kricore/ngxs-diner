@@ -1,11 +1,10 @@
 import { Injectable } from '@angular/core';
-import { Action, NgxsOnInit, Selector, State, StateContext } from '@ngxs/store';
+import { Action, NgxsOnInit, State, StateContext } from '@ngxs/store';
 
-import { insertItem, patch, removeItem } from '@ngxs/store/operators';
-import { Order, OrdersMap, Table } from '../models';
+import { tap } from 'rxjs/operators';
+import { OrdersMap, Table } from '../models';
 import { TablesApiService } from '../services/tables-api.service';
 import { AddTableChoice, CancelReservation, LoadTables, RemoveTableChoice, ReserveTable } from './actions';
-
 export interface TablesStateModel {
   items: Table[];
   orders: OrdersMap;
@@ -22,66 +21,80 @@ export interface TablesStateModel {
 export class TablesState implements NgxsOnInit {
   constructor(private api: TablesApiService) {}
 
-  @Selector() static tables(state: TablesStateModel): Table[] {
-    return [...state.items].sort((a, b) => (a.name > b.name ? 1 : -1));
-  }
-
-  @Selector()
-  static orders(state: TablesStateModel): OrdersMap {
-    return state.orders;
-  }
-
   ngxsOnInit(ctx?: StateContext<TablesStateModel>): void {
     ctx.dispatch(new LoadTables());
   }
 
   @Action(LoadTables)
-  protected async loadTables(ctx: StateContext<TablesStateModel>, action: LoadTables): Promise<void> {
-    const data = await this.api.loadTables().toPromise();
-    ctx.patchState({ items: data });
+  protected async loadTables(ctx: StateContext<TablesStateModel>, action: LoadTables) {
+    return this.api.loadTables().pipe(tap(data => ctx.patchState({ items: data })));
   }
 
   @Action(ReserveTable)
   protected reserveTable(ctx: StateContext<TablesStateModel>, action: ReserveTable): void {
     const { tableName } = action;
-    ctx.setState(
-      patch<TablesStateModel>({
-        orders: patch({
-          [tableName]: { tableName, choices: [], persons: null },
-        }),
-      })
-    );
+
+    ctx.patchState({
+      orders: {
+        ...ctx.getState().orders,
+        [tableName]: { tableName, choices: [] },
+      },
+    });
   }
 
   @Action(CancelReservation)
   protected cancelReservation(ctx: StateContext<TablesStateModel>, action: CancelReservation): void {
     const { tableName } = action;
-    ctx.setState(
-      patch<TablesStateModel>({ orders: patch({ [tableName]: null }) })
-    );
+
+    ctx.patchState({
+      orders: {
+        ...ctx.getState().orders,
+        [tableName]: null,
+      },
+    });
   }
 
   @Action(AddTableChoice)
   protected addTableChoice(ctx: StateContext<TablesStateModel>, action: AddTableChoice): void {
     const { tableName, choice } = action;
-    ctx.setState(
-      patch<TablesStateModel>({
-        orders: patch<OrdersMap>({
-          [tableName]: patch<Order>({ choices: insertItem(choice) }),
-        }),
-      })
-    );
+    // ctx.setState(
+    //   patch<TablesStateModel>({
+    //     orders: patch<OrdersMap>({
+    //       [tableName]: patch<Order>({ choices: insertItem(choice) }),
+    //     }),
+    //   })
+    // );
+
+    ctx.patchState({
+      orders: {
+        ...ctx.getState().orders,
+        [tableName]: {
+          ...ctx.getState().orders[tableName],
+          choices: [...ctx.getState().orders[tableName].choices, choice],
+        },
+      },
+    });
   }
 
   @Action(RemoveTableChoice)
   protected removeTableChoice(ctx: StateContext<TablesStateModel>, action: RemoveTableChoice): void {
     const { tableName, choice } = action;
-    ctx.setState(
-      patch<TablesStateModel>({
-        orders: patch<OrdersMap>({
-          [tableName]: patch<Order>({ choices: removeItem(item => item === choice) }),
-        }),
-      })
-    );
+    // ctx.setState(
+    //   patch<TablesStateModel>({
+    //     orders: patch<OrdersMap>({
+    //       [tableName]: patch<Order>({ choices: removeItem(item => item === choice) }),
+    //     }),
+    //   })
+    // );
+
+    ctx.patchState({
+      orders: {
+        ...ctx.getState().orders,
+        [tableName]: {
+          ...ctx.getState().orders[tableName],
+          choices: ctx.getState().orders[tableName].choices.filter(item => item !== choice),
+        },
+      },
+    });
   }
 }

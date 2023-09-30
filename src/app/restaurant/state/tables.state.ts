@@ -57,13 +57,6 @@ export class TablesState implements NgxsOnInit {
   @Action(AddTableChoice)
   protected addTableChoice(ctx: StateContext<TablesStateModel>, action: AddTableChoice): void {
     const { tableName, choice } = action;
-    // ctx.setState(
-    //   patch<TablesStateModel>({
-    //     orders: patch<OrdersMap>({
-    //       [tableName]: patch<Order>({ choices: insertItem(choice) }),
-    //     }),
-    //   })
-    // );
 
     ctx.patchState({
       orders: {
@@ -79,13 +72,6 @@ export class TablesState implements NgxsOnInit {
   @Action(RemoveTableChoice)
   protected removeTableChoice(ctx: StateContext<TablesStateModel>, action: RemoveTableChoice): void {
     const { tableName, choice } = action;
-    // ctx.setState(
-    //   patch<TablesStateModel>({
-    //     orders: patch<OrdersMap>({
-    //       [tableName]: patch<Order>({ choices: removeItem(item => item === choice) }),
-    //     }),
-    //   })
-    // );
 
     ctx.patchState({
       orders: {

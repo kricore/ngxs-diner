@@ -4,7 +4,7 @@ import { Action, NgxsOnInit, State, StateContext } from '@ngxs/store';
 import { tap } from 'rxjs/operators';
 import { OrdersMap, Table } from '../models';
 import { TablesApiService } from '../services/tables-api.service';
-import { AddTableChoice, CancelReservation, LoadTables, RemoveTableChoice, ReserveTable } from './actions';
+import { CancelReservation, LoadTables, ReserveTable } from './actions';
 export interface TablesStateModel {
   items: Table[];
   orders: OrdersMap;
@@ -26,7 +26,7 @@ export class TablesState implements NgxsOnInit {
   }
 
   @Action(LoadTables)
-  protected async loadTables(ctx: StateContext<TablesStateModel>, action: LoadTables) {
+  protected loadTables(ctx: StateContext<TablesStateModel>, action: LoadTables) {
     return this.api.loadTables().pipe(tap(data => ctx.patchState({ items: data })));
   }
 
@@ -50,50 +50,6 @@ export class TablesState implements NgxsOnInit {
       orders: {
         ...ctx.getState().orders,
         [tableName]: null,
-      },
-    });
-  }
-
-  @Action(AddTableChoice)
-  protected addTableChoice(ctx: StateContext<TablesStateModel>, action: AddTableChoice): void {
-    const { tableName, choice } = action;
-    // ctx.setState(
-    //   patch<TablesStateModel>({
-    //     orders: patch<OrdersMap>({
-    //       [tableName]: patch<Order>({ choices: insertItem(choice) }),
-    //     }),
-    //   })
-    // );
-
-    ctx.patchState({
-      orders: {
-        ...ctx.getState().orders,
-        [tableName]: {
-          ...ctx.getState().orders[tableName],
-          choices: [...ctx.getState().orders[tableName].choices, choice],
-        },
-      },
-    });
-  }
-
-  @Action(RemoveTableChoice)
-  protected removeTableChoice(ctx: StateContext<TablesStateModel>, action: RemoveTableChoice): void {
-    const { tableName, choice } = action;
-    // ctx.setState(
-    //   patch<TablesStateModel>({
-    //     orders: patch<OrdersMap>({
-    //       [tableName]: patch<Order>({ choices: removeItem(item => item === choice) }),
-    //     }),
-    //   })
-    // );
-
-    ctx.patchState({
-      orders: {
-        ...ctx.getState().orders,
-        [tableName]: {
-          ...ctx.getState().orders[tableName],
-          choices: ctx.getState().orders[tableName].choices.filter(item => item !== choice),
-        },
       },
     });
   }

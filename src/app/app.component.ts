@@ -20,11 +20,6 @@ export class AppComponent {
       link: '/restaurant',
       hasAccess$: this.hasRole$('restaurant'),
     },
-    {
-      text: 'Kitchen',
-      link: '/kitchen',
-      hasAccess$: this.hasRole$('kitchen'),
-    },
   ];
 
   hasRole$(roleName: string): Observable<boolean> {

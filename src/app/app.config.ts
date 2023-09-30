@@ -6,8 +6,6 @@ import { NgxsReduxDevtoolsPluginModule } from '@ngxs/devtools-plugin';
 import { NgxsLoggerPluginModule } from '@ngxs/logger-plugin';
 import { NgxsModule, NoopNgxsExecutionStrategy } from '@ngxs/store';
 import { environment } from 'src/environments/environment';
-import { KitchenModule } from './kitchen/kitchen.module';
-import { RecipeModule } from './recipies/recipes.module';
 import { RestaurantModule } from './restaurant/restaurant.module';
 import { routes } from './routes';
 
@@ -22,9 +20,7 @@ export const appConfig: ApplicationConfig = {
       }),
       NgxsLoggerPluginModule.forRoot(),
       NgxsReduxDevtoolsPluginModule.forRoot(),
-      RecipeModule,
-      RestaurantModule,
-      KitchenModule
+      RestaurantModule
     ),
     provideAnimations(),
     provideRouter(routes),

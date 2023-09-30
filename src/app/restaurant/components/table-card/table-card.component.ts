@@ -6,7 +6,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatLegacyButtonModule } from '@angular/material/legacy-button';
 import { MatLegacyCardModule } from '@angular/material/legacy-card';
 import { TableOrderViewModel } from '../../models/order.view-model';
-import { CancelReservation, EditTableOrder, ReserveTable } from '../../state/actions';
+import { CancelReservation, ReserveTable } from '../../state/actions';
 
 @Component({
   selector: 'app-table-card',
@@ -21,13 +21,12 @@ export class TableCardComponent {
 
   private _store = inject(Store);
 
-  async reserveTable(): Promise<void> {
-    await this._store.dispatch(new ReserveTable(this.tableOrder.table.name)).toPromise();
-    await this.captureOrder();
+  async reserveTable() {
+    this._store.dispatch(new ReserveTable(this.tableOrder.table.name));
   }
 
-  async captureOrder(): Promise<void> {
-    await this._store.dispatch(new EditTableOrder(this.tableOrder.table.name)).toPromise();
+  captureOrder() {
+    console.log('does nothing yet');
   }
 
   cancelTableReservation(): void {

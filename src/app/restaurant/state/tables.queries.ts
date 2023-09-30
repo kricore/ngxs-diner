@@ -1,7 +1,6 @@
 import { createPropertySelectors, createSelector } from '@ngxs/store';
 
 import { OrdersMap, Table } from '../models';
-import { KitchenViewModel } from '../models/kitchen.view-model';
 import { OrderingViewModel } from '../models/order.view-model';
 import { TablesState, TablesStateModel } from './tables.state';
 
@@ -27,31 +26,6 @@ export namespace TablesStateQueries {
       return {
         tableOrders: tablesViewModels,
       };
-    }
-  );
-
-  export const getAllOrderedItemsCountMap = createSelector(
-    [orders],
-    (orders: OrdersMap): Record<string, number> => {
-      const orderChoices = Object.keys(orders).flatMap(key => orders[key].choices);
-      const itemCounts = orderChoices.reduce<Record<string, number>>((acc, order) => {
-        const currentCount = acc[order] || 0;
-        acc[order] = currentCount + 1;
-        return acc;
-      }, {});
-      return itemCounts;
-    }
-  );
-
-  export const getKitchenViewModel = createSelector(
-    [getAllOrderedItemsCountMap],
-    (itemCountMap: Record<string, number>): KitchenViewModel => {
-      const productionSheet = Object.keys(itemCountMap).map(key => ({
-        item: key,
-        count: itemCountMap[key],
-      }));
-
-      return { productionSheet };
     }
   );
 }

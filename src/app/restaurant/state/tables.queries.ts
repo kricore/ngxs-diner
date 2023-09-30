@@ -1,7 +1,6 @@
 import { createPropertySelectors, createSelector } from '@ngxs/store';
 
 import { OrdersMap, Table } from '../models';
-import { KitchenViewModel } from '../models/kitchen.view-model';
 import { OrderingViewModel } from '../models/order.view-model';
 import { TablesState, TablesStateModel } from './tables.state';
 
@@ -40,18 +39,6 @@ export namespace TablesStateQueries {
         return acc;
       }, {});
       return itemCounts;
-    }
-  );
-
-  export const getKitchenViewModel = createSelector(
-    [getAllOrderedItemsCountMap],
-    (itemCountMap: Record<string, number>): KitchenViewModel => {
-      const productionSheet = Object.keys(itemCountMap).map(key => ({
-        item: key,
-        count: itemCountMap[key],
-      }));
-
-      return { productionSheet };
     }
   );
 }

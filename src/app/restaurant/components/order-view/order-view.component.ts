@@ -13,7 +13,6 @@ import { MatLegacyButtonModule } from '@angular/material/legacy-button';
 import { MatLegacyTableModule } from '@angular/material/legacy-table';
 import { Recipe } from 'src/app/recipies/models';
 import { RecipesStateQueries } from 'src/app/recipies/state/recipies.queries';
-import { AddTableChoice, RemoveTableChoice } from '../../state/actions';
 export interface TableViewDialogData {
   tableName: string;
 }
@@ -41,10 +40,10 @@ export class OrderViewComponent implements OnInit {
   }
 
   addChoice(recipeName: string): void {
-    this._store.dispatch(new AddTableChoice(this.data.tableName, recipeName));
+    console.log('does nothing');
   }
 
   removeChoice(recipeName: string): void {
-    this._store.dispatch(new RemoveTableChoice(this.data.tableName, recipeName));
+    console.log('does nothing');
   }
 }

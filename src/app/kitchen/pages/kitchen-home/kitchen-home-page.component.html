@@ -1,7 +1,0 @@
-<div class="grid-container">
-  <h1 class="mat-h1">Production Schedule</h1>
-  <div></div>
-  <ng-container *ngIf="viewModel$ | async as viewModel">
-    <app-orders-list [orders]="viewModel.productionSheet"></app-orders-list>
-  </ng-container>
-</div>

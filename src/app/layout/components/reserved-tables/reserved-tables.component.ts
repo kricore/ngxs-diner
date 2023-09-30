@@ -1,8 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { Store } from '@ngxs/store';
-import { Observable } from 'rxjs';
-import { TablesStateQueries } from 'src/app/restaurant/state/tables.queries';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Observable, of } from 'rxjs';
 
 @Component({
   selector: 'app-reserved-tables',
@@ -28,6 +26,5 @@ import { TablesStateQueries } from 'src/app/restaurant/state/tables.queries';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ReservedTablesComponent {
-  private _store = inject(Store);
-  reservedTables$: Observable<number> = this._store.select(TablesStateQueries.getCountOfReservedTables);
+  reservedTables$: Observable<number> = of(0);
 }

@@ -1,11 +1,11 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 
 import { AsyncPipe, NgIf } from '@angular/common';
+import { map } from 'rxjs/operators';
 import { TablesViewComponent } from '../../components/tables-view/tables-view.component';
 import { OrderingViewModel } from '../../models/order.view-model';
-import { TablesStateQueries } from '../../state/tables.queries';
+import { TablesApiService } from '../../services/tables-api.service';
 
 @Component({
   templateUrl: './restaurant-home-page.component.html',
@@ -15,7 +15,14 @@ import { TablesStateQueries } from '../../state/tables.queries';
   imports: [NgIf, TablesViewComponent, AsyncPipe],
 })
 export class RestaurantHomePageComponent {
-  private _store = inject(Store);
-
-  viewModel$: Observable<OrderingViewModel> = this._store.select(TablesStateQueries.getViewModel);
+  viewModel$: Observable<OrderingViewModel> = inject(TablesApiService)
+    .loadTables()
+    .pipe(
+      map(tables => ({
+        tableOrders: tables.map(table => ({
+          table,
+          isOpen: false,
+        })),
+      }))
+    );
 }

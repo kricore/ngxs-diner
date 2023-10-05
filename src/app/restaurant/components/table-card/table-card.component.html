@@ -1,28 +1,28 @@
 <mat-card class="dashboard-card">
   <mat-card-header>
     <mat-card-title>
-      {{ tableOrder.table.name }}
+      {{ tableReservation.table.name }}
     </mat-card-title>
-    <mat-card-subtitle>Seats {{ tableOrder.table.capacity }} people</mat-card-subtitle>
+    <mat-card-subtitle>Seats {{ tableReservation.table.capacity }} people</mat-card-subtitle>
   </mat-card-header>
   <mat-card-content class="dashboard-card-content">
-    <ng-container *ngIf="!tableOrder.isOpen">
+    <ng-container *ngIf="!tableReservation.isOpen">
       <div>Table Is Not Reserved</div>
     </ng-container>
-    <ng-container *ngIf="tableOrder.isOpen">
+    <ng-container *ngIf="tableReservation.isOpen">
       <mat-icon>group</mat-icon>
     </ng-container>
   </mat-card-content>
   <mat-card-actions>
-    <ng-container *ngIf="!tableOrder.isOpen">
+    <ng-container *ngIf="!tableReservation.isOpen">
       <div>
         <button mat-button color="primary" class="table-order-button" (click)="reserveTable()">Reserve</button>
       </div>
     </ng-container>
-    <ng-container *ngIf="tableOrder.isOpen">
+    <ng-container *ngIf="tableReservation.isOpen">
       <div>
         <button mat-button color="warning" (click)="cancelTableReservation()">Cancel Reservation</button>
-        <button mat-button color="primary" class="table-order-button" (click)="captureOrder()">
+        <button mat-button color="primary" class="table-order-button" (click)="captureReservation()">
           <mat-icon>restaurant</mat-icon>
         </button>
       </div>

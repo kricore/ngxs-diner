@@ -6,7 +6,7 @@ import { Actions, NgxsModule, ofActionDispatched } from '@ngxs/store';
 
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { OrderingDialogsService } from './dialogs/ordering-dialogs.service';
-import { EditTableOrder } from './state/actions';
+import { EditTableReservation } from './state/actions';
 import { TablesState } from './state/tables.state';
 @NgModule({
   declarations: [],
@@ -20,9 +20,9 @@ import { TablesState } from './state/tables.state';
 export class RestaurantModule {
   constructor(private actions: Actions, dialog: OrderingDialogsService) {
     this.actions
-      .pipe(ofActionDispatched(EditTableOrder))
+      .pipe(ofActionDispatched(EditTableReservation))
       .pipe(takeUntilDestroyed())
-      .subscribe((action: EditTableOrder) => {
+      .subscribe((action: EditTableReservation) => {
         dialog.openTableOrder(action.tableName);
       });
   }

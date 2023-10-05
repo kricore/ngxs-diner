@@ -1,39 +1,41 @@
 import { createPropertySelectors, createSelector } from '@ngxs/store';
 
-import { OrdersMap, Table } from '../models';
+import { Table, TableReservation } from '../models';
 import { KitchenViewModel } from '../models/kitchen.view-model';
-import { OrderingViewModel } from '../models/order.view-model';
+import { ReservationViewModel } from '../models/reservation.view-model';
 import { TablesState, TablesStateModel } from './tables.state';
 
 export namespace TablesStateQueries {
-  export const { items, orders } = createPropertySelectors<TablesStateModel>(TablesState);
+  export const { items, reservations } = createPropertySelectors<TablesStateModel>(TablesState);
 
   export const sortedTables = createSelector([items], (tables: Table[]) => {
     return [...tables].sort((a, b) => (a.name > b.name ? 1 : -1));
   });
 
-  export const getCountOfReservedTables = createSelector([orders], (orders: OrdersMap) => {
+  export const getCountOfReservedTables = createSelector([reservations], (orders: TableReservation) => {
     return Object.entries(orders).filter(([_, value]) => !!value).length;
   });
 
   export const getViewModel = createSelector(
-    [sortedTables, orders],
-    (sortedTables: Table[], orders: OrdersMap): OrderingViewModel => {
+    [sortedTables, reservations],
+    (sortedTables: Table[], reservations: TableReservation): ReservationViewModel => {
       const tablesViewModels = sortedTables.map(table => {
-        const order = orders[table.name];
-        const isOpen = !!order;
-        return { table, order, isOpen };
+        const reservation = reservations[table.name];
+        const isOpen = !!reservation;
+        return { table, reservation, isOpen };
       });
       return {
-        tableOrders: tablesViewModels,
+        tableReservations: tablesViewModels,
       };
     }
   );
 
-  export const getAllOrderedItemsCountMap = createSelector(
-    [orders],
-    (orders: OrdersMap): Record<string, number> => {
-      const orderChoices = Object.keys(orders).flatMap(key => orders[key].choices);
+  export const getAllReservationsCountMap = createSelector(
+    [reservations],
+    (reservations: TableReservation): Record<string, number> => {
+      const orderChoices = Object.keys(reservations)
+        .flatMap(key => reservations[key]?.choices)
+        .filter(x => !!x);
       const itemCounts = orderChoices.reduce<Record<string, number>>((acc, order) => {
         const currentCount = acc[order] || 0;
         acc[order] = currentCount + 1;
@@ -44,11 +46,11 @@ export namespace TablesStateQueries {
   );
 
   export const getKitchenViewModel = createSelector(
-    [getAllOrderedItemsCountMap],
-    (itemCountMap: Record<string, number>): KitchenViewModel => {
-      const productionSheet = Object.keys(itemCountMap).map(key => ({
+    [getAllReservationsCountMap],
+    (reservationsCountMap: Record<string, number>): KitchenViewModel => {
+      const productionSheet = Object.keys(reservationsCountMap).map(key => ({
         item: key,
-        count: itemCountMap[key],
+        count: reservationsCountMap[key],
       }));
 
       return { productionSheet };

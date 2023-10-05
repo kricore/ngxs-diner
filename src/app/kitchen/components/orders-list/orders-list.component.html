@@ -1,6 +1,6 @@
-<table class="orders-table mat-elevation-z2" mat-table #table [dataSource]="orders">
+<table class="orders-table mat-elevation-z2" mat-table #table [dataSource]="reservations">
   <ng-container matColumnDef="count">
-    <th mat-header-cell *matHeaderCellDef>Orders</th>
+    <th mat-header-cell *matHeaderCellDef>Reservations</th>
     <td mat-cell *matCellDef="let row">{{ row.count }}</td>
   </ng-container>
   <ng-container matColumnDef="choice">

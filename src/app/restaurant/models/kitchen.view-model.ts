@@ -1,8 +1,8 @@
 export interface KitchenViewModel {
-  productionSheet: OrderCount[];
+  productionSheet: ReservationCount[];
 }
 
-export interface OrderCount {
+export interface ReservationCount {
   item: string;
   count: number;
 }

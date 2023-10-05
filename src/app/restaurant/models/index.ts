@@ -1,2 +1,2 @@
 export * from './table';
-export * from './table-order';
+export * from './table-reservation';

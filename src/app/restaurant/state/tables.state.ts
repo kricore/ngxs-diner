@@ -3,19 +3,19 @@ import { Action, NgxsOnInit, State, StateContext } from '@ngxs/store';
 
 import { insertItem, patch, removeItem } from '@ngxs/store/operators';
 import { tap } from 'rxjs/operators';
-import { Order, OrdersMap, Table } from '../models';
+import { Reservation, Table, TableReservation } from '../models';
 import { TablesApiService } from '../services/tables-api.service';
 import { AddTableChoice, CancelReservation, LoadTables, RemoveTableChoice, ReserveTable } from './actions';
 export interface TablesStateModel {
   items: Table[];
-  orders: OrdersMap;
+  reservations: TableReservation;
 }
 
 @State<TablesStateModel>({
   name: 'tables',
   defaults: {
     items: [],
-    orders: {},
+    reservations: {},
   },
 })
 @Injectable()
@@ -37,7 +37,7 @@ export class TablesState implements NgxsOnInit {
 
     ctx.setState(
       patch({
-        orders: patch({
+        reservations: patch({
           [tableName]: { tableName, choices: [] },
         }),
       })
@@ -50,7 +50,7 @@ export class TablesState implements NgxsOnInit {
 
     ctx.setState(
       patch({
-        orders: patch({
+        reservations: patch({
           [tableName]: undefined,
         }),
       })
@@ -62,8 +62,8 @@ export class TablesState implements NgxsOnInit {
     const { tableName, choice } = action;
     ctx.setState(
       patch<TablesStateModel>({
-        orders: patch<OrdersMap>({
-          [tableName]: patch<Order>({ choices: insertItem(choice) }),
+        reservations: patch<TableReservation>({
+          [tableName]: patch<Reservation>({ choices: insertItem(choice) }),
         }),
       })
     );
@@ -74,8 +74,8 @@ export class TablesState implements NgxsOnInit {
     const { tableName, choice } = action;
     ctx.setState(
       patch<TablesStateModel>({
-        orders: patch<OrdersMap>({
-          [tableName]: patch<Order>({ choices: removeItem(item => item === choice) }),
+        reservations: patch<TableReservation>({
+          [tableName]: patch<Reservation>({ choices: removeItem(item => item === choice) }),
         }),
       })
     );

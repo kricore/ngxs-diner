@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { AsyncPipe, NgIf } from '@angular/common';
 import { map } from 'rxjs/operators';
 import { TablesViewComponent } from '../../components/tables-view/tables-view.component';
-import { OrderingViewModel } from '../../models/order.view-model';
+import { ReservationViewModel } from '../../models/reservation.view-model';
 import { TablesApiService } from '../../services/tables-api.service';
 
 @Component({
@@ -15,11 +15,11 @@ import { TablesApiService } from '../../services/tables-api.service';
   imports: [NgIf, TablesViewComponent, AsyncPipe],
 })
 export class RestaurantHomePageComponent {
-  viewModel$: Observable<OrderingViewModel> = inject(TablesApiService)
+  viewModel$: Observable<ReservationViewModel> = inject(TablesApiService)
     .loadTables()
     .pipe(
       map(tables => ({
-        tableOrders: tables.map(table => ({
+        tableReservations: tables.map(table => ({
           table,
           isOpen: false,
         })),

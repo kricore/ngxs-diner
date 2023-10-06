@@ -2,19 +2,19 @@ import { Injectable } from '@angular/core';
 import { Action, NgxsOnInit, State, StateContext } from '@ngxs/store';
 
 import { tap } from 'rxjs/operators';
-import { OrdersMap, Table } from '../models';
+import { Table, TableReservation } from '../models';
 import { TablesApiService } from '../services/tables-api.service';
 import { CancelReservation, LoadTables, ReserveTable } from './actions';
 export interface TablesStateModel {
   items: Table[];
-  orders: OrdersMap;
+  reservations: TableReservation;
 }
 
 @State<TablesStateModel>({
   name: 'tables',
   defaults: {
     items: [],
-    orders: {},
+    reservations: {},
   },
 })
 @Injectable()
@@ -35,8 +35,8 @@ export class TablesState implements NgxsOnInit {
     const { tableName } = action;
 
     ctx.patchState({
-      orders: {
-        ...ctx.getState().orders,
+      reservations: {
+        ...ctx.getState().reservations,
         [tableName]: { tableName, choices: [] },
       },
     });
@@ -47,8 +47,8 @@ export class TablesState implements NgxsOnInit {
     const { tableName } = action;
 
     ctx.patchState({
-      orders: {
-        ...ctx.getState().orders,
+      reservations: {
+        ...ctx.getState().reservations,
         [tableName]: null,
       },
     });

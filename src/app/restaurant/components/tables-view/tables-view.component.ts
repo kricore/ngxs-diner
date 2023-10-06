@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
 import { NgFor } from '@angular/common';
 import { MatGridListModule } from '@angular/material/grid-list';
-import { TableOrderViewModel } from '../../models/order.view-model';
+import { TableReservationViewModel } from '../../models/reservation.view-model';
 import { TableCardComponent } from '../table-card/table-card.component';
 
 @Component({
@@ -14,5 +14,5 @@ import { TableCardComponent } from '../table-card/table-card.component';
   imports: [MatGridListModule, NgFor, TableCardComponent],
 })
 export class TablesViewComponent {
-  @Input() tableOrders: TableOrderViewModel[] = [];
+  @Input() tableReservations: TableReservationViewModel[] = [];
 }

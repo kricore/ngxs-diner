@@ -1,7 +1,7 @@
 import { createPropertySelectors, createSelector } from '@ngxs/store';
 
 import { Table } from '../models';
-import { OrderingViewModel } from '../models/order.view-model';
+import { ReservationViewModel } from '../models/reservation.view-model';
 import { TablesState, TablesStateModel } from './tables.state';
 
 export namespace TablesStateQueries {
@@ -13,13 +13,13 @@ export namespace TablesStateQueries {
 
   export const getViewModel = createSelector(
     [sortedTables],
-    (sortedTables: Table[]): OrderingViewModel => {
+    (sortedTables: Table[]): ReservationViewModel => {
       const tablesViewModels = sortedTables.map(table => {
         const isOpen = false;
         return { table, isOpen };
       });
       return {
-        tableOrders: tablesViewModels,
+        tableReservations: tablesViewModels,
       };
     }
   );

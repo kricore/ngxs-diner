@@ -4,7 +4,7 @@ import { JsonPipe, NgIf } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { MatLegacyButtonModule } from '@angular/material/legacy-button';
 import { MatLegacyCardModule } from '@angular/material/legacy-card';
-import { TableOrderViewModel } from '../../models/order.view-model';
+import { TableReservationViewModel } from '../../models/reservation.view-model';
 
 @Component({
   selector: 'app-table-card',
@@ -15,7 +15,7 @@ import { TableOrderViewModel } from '../../models/order.view-model';
   imports: [MatLegacyCardModule, NgIf, MatIconModule, MatLegacyButtonModule, JsonPipe],
 })
 export class TableCardComponent {
-  @Input() tableOrder: TableOrderViewModel = null;
+  @Input() tableReservation: TableReservationViewModel = null;
 
   reserveTable() {}
 

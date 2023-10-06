@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 
 import { AsyncPipe, NgIf } from '@angular/common';
 import { TablesViewComponent } from '../../components/tables-view/tables-view.component';
-import { OrderingViewModel } from '../../models/order.view-model';
+import { ReservationViewModel } from '../../models/reservation.view-model';
 import { TablesStateQueries } from '../../state/tables.queries';
 
 @Component({
@@ -17,5 +17,5 @@ import { TablesStateQueries } from '../../state/tables.queries';
 export class RestaurantHomePageComponent {
   private _store = inject(Store);
 
-  viewModel$: Observable<OrderingViewModel> = this._store.select(TablesStateQueries.getViewModel);
+  viewModel$: Observable<ReservationViewModel> = this._store.select(TablesStateQueries.getViewModel);
 }

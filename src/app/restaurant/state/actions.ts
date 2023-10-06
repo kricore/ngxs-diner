@@ -13,8 +13,8 @@ export class CancelReservation {
   constructor(public readonly tableName: string) {}
 }
 
-export class EditTableOrder {
-  static readonly type = '[Ordering] Edit Table Order';
+export class EditTableReservation {
+  static readonly type = '[Ordering] Edit Table Reservation';
   constructor(public readonly tableName: string) {}
 }
 

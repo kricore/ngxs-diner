@@ -5,7 +5,7 @@ import { JsonPipe, NgIf } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { MatLegacyButtonModule } from '@angular/material/legacy-button';
 import { MatLegacyCardModule } from '@angular/material/legacy-card';
-import { TableOrderViewModel } from '../../models/order.view-model';
+import { TableReservationViewModel } from '../../models/reservation.view-model';
 import { CancelReservation, ReserveTable } from '../../state/actions';
 
 @Component({
@@ -17,12 +17,12 @@ import { CancelReservation, ReserveTable } from '../../state/actions';
   imports: [MatLegacyCardModule, NgIf, MatIconModule, MatLegacyButtonModule, JsonPipe],
 })
 export class TableCardComponent {
-  @Input() tableOrder: TableOrderViewModel = null;
+  @Input() tableReservation: TableReservationViewModel = null;
 
   private _store = inject(Store);
 
   async reserveTable() {
-    this._store.dispatch(new ReserveTable(this.tableOrder.table.name));
+    this._store.dispatch(new ReserveTable(this.tableReservation.table.name));
   }
 
   captureOrder() {
@@ -30,6 +30,6 @@ export class TableCardComponent {
   }
 
   cancelTableReservation(): void {
-    this._store.dispatch(new CancelReservation(this.tableOrder.table.name));
+    this._store.dispatch(new CancelReservation(this.tableReservation.table.name));
   }
 }

@@ -1,30 +1,30 @@
 import { createPropertySelectors, createSelector } from '@ngxs/store';
 
-import { OrdersMap, Table } from '../models';
-import { OrderingViewModel } from '../models/order.view-model';
+import { Table, TableReservation } from '../models';
+import { ReservationViewModel } from '../models/reservation.view-model';
 import { TablesState, TablesStateModel } from './tables.state';
 
 export namespace TablesStateQueries {
-  export const { items, orders } = createPropertySelectors<TablesStateModel>(TablesState);
+  export const { items, reservations } = createPropertySelectors<TablesStateModel>(TablesState);
 
   export const sortedTables = createSelector([items], (tables: Table[]) => {
     return [...tables].sort((a, b) => (a.name > b.name ? 1 : -1));
   });
 
-  export const getCountOfReservedTables = createSelector([orders], (orders: OrdersMap) => {
-    return Object.entries(orders).filter(([_, value]) => !!value).length;
+  export const getCountOfReservedTables = createSelector([reservations], (reservations: TableReservation) => {
+    return Object.entries(reservations).filter(([_, value]) => !!value).length;
   });
 
   export const getViewModel = createSelector(
-    [sortedTables, orders],
-    (sortedTables: Table[], orders: OrdersMap): OrderingViewModel => {
+    [sortedTables, reservations],
+    (sortedTables: Table[], reservations: TableReservation): ReservationViewModel => {
       const tablesViewModels = sortedTables.map(table => {
-        const order = orders[table.name];
-        const isOpen = !!order;
-        return { table, order, isOpen };
+        const reservation = reservations[table.name];
+        const isOpen = !!reservation;
+        return { table, reservation, isOpen };
       });
       return {
-        tableOrders: tablesViewModels,
+        tableReservations: tablesViewModels,
       };
     }
   );

@@ -6,6 +6,10 @@ import { map } from 'rxjs/operators';
 import { TablesViewComponent } from '../../components/tables-view/tables-view.component';
 import { ReservationViewModel } from '../../models/reservation.view-model';
 import { TablesApiService } from '../../services/tables-api.service';
+import { TablesState } from '../../state/tables.state';
+import { Store } from '@ngxs/store';
+import { Table } from '../../models';
+import { getAllReservations, getAllTables } from '../../selectors/tables.selector';
 
 @Component({
   templateUrl: './restaurant-home-page.component.html',
@@ -15,14 +19,7 @@ import { TablesApiService } from '../../services/tables-api.service';
   imports: [NgIf, TablesViewComponent, AsyncPipe],
 })
 export class RestaurantHomePageComponent {
-  viewModel$: Observable<ReservationViewModel> = inject(TablesApiService)
-    .loadTables()
-    .pipe(
-      map(tables => ({
-        tableReservations: tables.map(table => ({
-          table,
-          isOpen: false,
-        })),
-      }))
-    );
+  viewModel$ = this.store.select(getAllReservations);
+
+  constructor(private store: Store) {}
 }
